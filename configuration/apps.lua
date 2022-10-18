@@ -6,15 +6,17 @@ return {
 	-- The default applications that we will use in keybindings and widgets
 	default = {
 		-- Default terminal emulator
-		terminal = 'env kitty -T="Kitty Terminal"',
+		terminal = 'env alacritty',
 		-- Default web browser
-		web_browser = 'env brave-browser',
+		web_browser = 'env firefox',
+        -- Private web browser
+        private_web_browser = ' env firefox -private-window',
 		-- Default text editor
-		text_editor = 'geany',
+		text_editor = 'leafpad',
 		-- Default file manager
-		file_manager = 'nautilus',
+		file_manager = 'thunar',
 		-- Default media player
-		multimedia = 'celluloid',
+		multimedia = 'mpv',
 		-- Default game, can be a launcher like steam
 		game = 'env steam',
 		-- Default graphics editor
@@ -26,24 +28,25 @@ return {
 		-- Default network manager
 		network_manager = 'nm-connection-editor',
 		-- Default bluetooth manager
-		bluetooth_manager = 'blueman-manager',
+		-- bluetooth_manager = 'blueman-manager',
+        bluetooth_manager = 'blueberry',
 		-- Default power manager (leaving this here as example)
 		power_manager = 'xfce4-power-manager',
 		-- Default GUI package manager
-		package_manager = 'synaptic',
+		package_manager = 'pamac-manager',
 		-- Default locker
 		lock = 'i3lock-fancy',
 		-- Default quake terminal
 		quake = 'env alacritty --title QuakeTerminal',
-		
+
 		-- Default rofi global menu (This is not used in material-awesome as it sometimes froze rofi completely)
 		-- kept in the config in-case anyone wants to take a crack at supporting it
-		rofi_global = 'env rofi -dpi ' .. screen.primary.dpi .. 
-							' -show "Global Search" -modi "Global Search":' .. config_dir .. 
-							'/configuration/rofi/global/rofi-spotlight.sh' .. 
+		rofi_global = 'env rofi -dpi ' .. screen.primary.dpi ..
+							' -show "Global Search" -modi "Global Search":' .. config_dir ..
+							'/configuration/rofi/global/rofi-spotlight.sh' ..
 							' -theme ' .. config_dir ..
 							'/configuration/rofi/global/rofi.rasi',
-		
+
 		-- Default app menu
 		rofi_appmenu = 'env rofi -dpi ' .. screen.primary.dpi ..
 							' -show drun -theme ' .. config_dir ..
@@ -55,15 +58,23 @@ return {
 	-- List of apps to start once on start-up
 	run_on_start_up = {
 		-- Compositor
-		'picom -b --experimental-backends --dbus --config ' ..
-		config_dir .. '/configuration/picom.conf',
+		'picom -b --experimental-backends --dbus --config ' .. config_dir .. '/configuration/picom.conf',
 
 		-- network applet for network connections
 		'nm-applet --indicator > /dev/null',
-		
+
+        -- Automount
+        'udiskie -s > /dev/null',
+
+        -- Hide mouse cursor when idle
+        'unclutter --timeout 2 --exclude-root --ignore-scrolling -b',
+
+        -- Variety Wallpater Manager
+        'variety',
+
 		-- Blueman applet
-		'blueman-applet > /dev/null',
-		
+		'blueberry-tray > /dev/null',
+
 		-- ibus keyboard daemon for keyboard management and emoji typing
 		'ibus-daemon --xim --daemonize',
 
@@ -72,6 +83,27 @@ return {
 
 		-- turn on numlock
     	'numlockx on',
+
+        -- volume
+        'pnmixer',
+
+        -- power manager
+        'xfce-power-manager',
+
+        -- syncthings
+        'syncthings-gtk -m',
+
+        -- redshif
+        'redshift-gtk',
+
+        -- pamac
+        'pamac-tray',
+
+        --clipit
+        'clipit',
+
+        -- dropbox
+        'dropbox',
 
 		-- start kdeconnect-indicator (script to handle awesome restarts)
 		utils_dir .. 'kdeconnect',
@@ -83,16 +115,16 @@ return {
 		'/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 & ' ..
 		--'/usr/bin/lxqt-policykit-agent & ' ..
 		--'/usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1 & ' ..
-		
+
 		-- use the gnome keyring with the polkit from the line above (easiest one to integrate)
 		'eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg)',
-		
+
 		-- Load X colors
 		'xrdb $HOME/.Xresources',
-		
+
 		-- Audio equalizer
 		--'pulseeffects --gapplication-service',
-		
+
 		-- Lockscreen timer
 		[[
 		xidlehook --not-when-fullscreen --not-when-audio --timer 600 \
@@ -104,7 +136,7 @@ return {
 
 		-- Load users custom xmodmap if they have one
 		'xmodmap $HOME/.Xmodmap',
-		
+
 		-- Spawn "dirty" apps that can linger between sessions
 		-- It is suggested you copy the contents of awspawn into ~/.config/awesomestart
 		-- then remove the "$HOME/.config/awesomestart" line from the APPS array

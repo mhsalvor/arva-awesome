@@ -18,41 +18,6 @@ return {
 			military_mode = true
 		},
 
-		-- I do not use the widgets for the below configurations, but I left them here in-case you re-enable them!
-		screen_recorder = {
-			-- Default record dimension
-			resolution = '1366x768',
-			-- X,Y coordinate
-			offset = '0,0',
-			-- Enable audio by default
-			audio = false,
-			-- Recordings directory
-			save_directory = '$(xdg-user-dir VIDEOS)/Recordings/',
-			-- Mic level
-			mic_level = '20',
-			-- FPS
-			fps = '30'
-		},
-
-		network = {
-			-- Wired interface
-			wired_interface = 'enp5s0',
-			-- Wireless interface
-			wireless_interface = 'wlan0'
-		},
-
-		email  = {
-			-- Email address
-			address = '',
-			-- App password
-			app_password = '',
-			-- Imap server
-			imap_server = 'imap.gmail.com',
-			-- Port
-			port = '993'
-		}
-	},
-
 	-- Module configurations
 	module = {
 		auto_start = {
@@ -60,6 +25,7 @@ return {
 			debug_mode = false
 		},
 
+--[[
 		dynamic_wallpaper = {
 			-- Will look for wallpapers here
 			wall_dir = 'theme/wallpapers/',
@@ -80,11 +46,12 @@ return {
 					'evening',
 					'night'
 				--]]
-			},
+			-- },
 			-- Stretch background image across all screens(monitor)
-			stretch = true
-		},
+			-- stretch = true
+		-- },
 
+--[[
 		-- This module is not in use, configuration is left here for potential future use!
 		-- because this idea is actually really cool!
 		lockscreen = {
@@ -107,3 +74,4 @@ return {
 		}
 	}
 }
+--]]
