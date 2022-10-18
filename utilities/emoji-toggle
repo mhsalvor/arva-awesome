@@ -1,0 +1,16 @@
+#!/bin/bash
+ibus_layout=$(ibus engine)
+ibus_default_layout="xkb:no::nor"
+layout="no"
+if [[ "$ibus_layout" == $ibus_default_layout ]]; then
+    echo Setting ibus to uniemoji
+    ibus engine uniemoji
+    setxkbmap $layout
+else
+    echo Setting ibus back to default
+    ibus engine $ibus_default_layout
+    setxkbmap $layout
+fi
+
+# Load users custom xmodmap
+xmodmap $HOME/.Xmodmap

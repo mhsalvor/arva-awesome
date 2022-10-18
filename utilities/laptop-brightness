@@ -1,0 +1,92 @@
+#!/bin/bash
+# This is an early version of the script, it is not used in material-awesome yet!
+# NOTE: This script is intended for hardware not supported properly by "light" on laptops
+# PS: THIS IS ONLY INTENDED FOR USE WITH LAPTOP SCREENS!
+SCREEN="LVDS|eDP"
+# This is for testing only #
+#SCREEN="DVI-D-1"
+############################
+
+GET_SCREEN=$(xrandr | grep -P "($SCREEN)" | awk '{print $1}')
+SET_COMMAND="xrandr --output $GET_SCREEN --brightness"
+GET_COMMAND=`xrandr --verbose | grep -iP "(Brightness| connected)" | perl -pe "s/(\t+| connected.+|Brightness)//g" | perl -pe "s/\n/,/" | perl -pe "s/,:/:/g" | perl -pe "s/,/\n/g" | grep $GET_SCREEN | awk '{print $2}'`
+
+# Get the brightness and multiply by 100 to get the percentage then use perl to remove the decimal
+BRIGHTNESS=$(echo "$GET_COMMAND*100" | bc | perl -pe "s/\.\d+$//")
+
+helptext () {
+    printf "Brightness utility using xrandr as backend.
+    This script works when light is not working properly.
+    
+    SET BRIGHTNESS FOR LVDS (Low-Voltage Differential Signaling, or laptop screen) or eDP Displays
+    USAGE set: laptop-brightness set percentage
+
+    GET BRIGHTNESS FOR LVDS or eDP DISPLAYS
+    USAGE get: laptop-brightness get
+    
+    Example set brightness to 57%:
+        laptop-brightness set 57
+
+    INCREASE/DECREASE BRIGHTNESS
+    USAGE: laptop-brightness add|sub int
+
+    Example increase brightness by 10%: 
+        laptop-brightness add 10
+
+    Example decrease brightness by 10%: 
+        laptop-brightness sub 10
+    
+    NOTES: 
+    * lowest percentage = 10
+"
+}
+
+if [ $# == 0 ]; then
+    helptext
+else
+    if [ "$1" == "set" ]
+    then
+        # Set the brightness and make sure we do not go below 10% or above 100%
+        if [ $(($2)) -gt 99 ]
+        then
+            $SET_COMMAND 1.0
+        elif [ $(($2)) -lt 10 ]
+        then
+            $SET_COMMAND 0.10
+        else
+            $SET_COMMAND 0.$2
+        fi
+    elif [ "$1" == "get" ]
+    then
+        # Print brightness
+        echo $BRIGHTNESS
+    elif [ "$1" == "add" ]
+    then
+        # Increment current brightness
+        NEW_BRIGHTNESS=$(expr $BRIGHTNESS + $2)
+
+        # Set the brightness and make sure we do not go below 10% or above 100%
+        if [ $(($NEW_BRIGHTNESS)) -gt 99 ]; then
+            $SET_COMMAND 1.0
+        elif [ $(($NEW_BRIGHTNESS)) -lt 10 ]; then
+            $SET_COMMAND 0.10
+        else
+            $SET_COMMAND 0.$NEW_BRIGHTNESS
+        fi
+    elif [ "$1" == "sub" ]
+    then
+        # Decrease current brightness
+        NEW_BRIGHTNESS=$(expr $BRIGHTNESS - $2)
+
+        # Set the brightness and make sure we do not go below 10% or above 100%
+        if [ $(($NEW_BRIGHTNESS)) -gt 99 ]; then
+            $SET_COMMAND 1.0
+        elif [ $(($NEW_BRIGHTNESS)) -lt 10 ]; then
+            $SET_COMMAND 0.10
+        else
+            $SET_COMMAND 0.$NEW_BRIGHTNESS
+        fi      
+    else
+        helptext
+    fi
+fi

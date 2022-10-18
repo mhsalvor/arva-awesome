@@ -1,0 +1,43 @@
+#!/bin/bash
+if [ $1 == "--delayed" ]; then
+    killall -15 spectacle
+    sleep 5 ; spectacle -n ${@:2} -o /tmp/screenshot.png ; xclip -selection clipboard -target image/png -i /tmp/screenshot.png ; paplay /usr/share/sounds/freedesktop/stereo/camera-shutter.oga
+else
+    #unset QT_STYLE_OVERRIDE
+    #unset QT_QPA_PLATFORMTHEME
+    
+    # Cleanup possible old instances
+    killall -15 ksnip
+    killall -9 xclip
+    rm /tmp/screenshot.png
+
+    # Use dbus to launch ksnip to avoid any delay (some weirdness that happened to me in some shells)
+    #dbus-launch --exit-with-session ksnip $@ &
+    #spectacle -n $@ &
+    ksnip $@ > /tmp/ksnip.log &
+    
+    # Check if ksnip is running (0 = yes, 1 = no)
+    ksnipstatus=$(pgrep ksnip > /dev/null ; echo $?)
+    
+    # Wait until ksnip has exited (when exit code is 1)
+    until [ $ksnipstatus -eq 1 ]
+    do
+        ksnipstatus=$(pgrep ksnip > /dev/null ; echo $?)
+        sleep 0.5
+    done
+
+    # If a screenshot has been taken
+    if [ -f /tmp/screenshot.png ]; then
+        sleep 0.5
+        # Copy screenshot to clipboard
+        xclip -selection clipboard -target image/png -i /tmp/screenshot.png
+        # Play screenshot captured sound, so the user know the screenshot is in the clipboard
+        paplay /usr/share/sounds/freedesktop/stereo/camera-shutter.oga
+    fi
+
+    # Cleanup in some shells, uncomment to enable, else leave commented out!
+    #kill $(pgrep -f dbus-daemon --syslog --fork --print-pid 5 --print-address 7 --session)
+    #kill $(pgrep -f "dbus-launch --exit-with-session ksnip")
+fi
+exit 0
+
