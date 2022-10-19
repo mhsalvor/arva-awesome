@@ -28,7 +28,6 @@ return {
 		-- Default network manager
 		network_manager = 'nm-connection-editor',
 		-- Default bluetooth manager
-		-- bluetooth_manager = 'blueman-manager',
         bluetooth_manager = 'blueberry',
 		-- Default power manager (leaving this here as example)
 		power_manager = 'xfce4-power-manager',
@@ -59,81 +58,51 @@ return {
 	run_on_start_up = {
 		-- Compositor
 		'picom -b --experimental-backends --dbus --config ' .. config_dir .. '/configuration/picom.conf',
-
 		-- network applet for network connections
 		'nm-applet --indicator > /dev/null',
-
         -- Automount
         'udiskie -s > /dev/null',
-
         -- Hide mouse cursor when idle
         'unclutter --timeout 2 --exclude-root --ignore-scrolling -b',
-
         -- Variety Wallpater Manager
         'variety',
-
 		-- Blueman applet
 		'blueberry-tray > /dev/null',
-
 		-- ibus keyboard daemon for keyboard management and emoji typing
 		'ibus-daemon --xim --daemonize',
-
 		-- scream audio sink for windows10 VM audio
     	'scream-start',
-
 		-- turn on numlock
     	'numlockx on',
-
         -- volume
-        'pnmixer',
-
+        'pa-applet',
         -- power manager
         'xfce-power-manager',
-
-        -- syncthings
-        'syncthings-gtk -m',
-
+        -- syncthing
+        'syncthing-gtk -m',
         -- redshif
         'redshift-gtk',
-
         -- pamac
         'pamac-tray',
-
         --clipit
         'clipit',
-
         -- dropbox
         'dropbox',
-
 		-- start kdeconnect-indicator (script to handle awesome restarts)
 		utils_dir .. 'kdeconnect',
-
-		-- Music server
-		--'mpd',
-
 		-- Polkit and keyring (uncomment the one you use)
-		'/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 & ' ..
-		--'/usr/bin/lxqt-policykit-agent & ' ..
-		--'/usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1 & ' ..
-
-		-- use the gnome keyring with the polkit from the line above (easiest one to integrate)
-		'eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg)',
-
+         '/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & ' ..
+         'eval $(gnome-keyring-daemon --s --components=pkcs11,secrets,ssh,gpg)',
+         -- 'eval $(ssh-agent -s) &'
 		-- Load X colors
 		'xrdb $HOME/.Xresources',
-
-		-- Audio equalizer
-		--'pulseeffects --gapplication-service',
-
 		-- Lockscreen timer
 		[[
 		xidlehook --not-when-fullscreen --not-when-audio --timer 600 \
 		"i3lock-fancy" ""
 		]],
-
 		-- Set brightness to 50% on LVDS output because my laptop battery is bad
 		utils_dir .. 'laptop-brightness set 50',
-
 		-- Load users custom xmodmap if they have one
 		'xmodmap $HOME/.Xmodmap',
 

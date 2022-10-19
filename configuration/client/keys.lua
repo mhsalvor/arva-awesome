@@ -7,8 +7,7 @@ local altkey = require('configuration.keys.mod').alt_key
 
 local client_keys = awful.util.table.join(
 	awful.key(
-		{modkey},
-		'f',
+		{ modkey }, 'f',
 		function(c)
 			c.fullscreen = not c.fullscreen
 			c:raise()
@@ -16,54 +15,47 @@ local client_keys = awful.util.table.join(
 		{description = 'toggle fullscreen', group = 'client'}
 	),
 	awful.key(
-		{modkey},
-		'q',
+		{ modkey, 'Shift' }, 'q',
 		function(c)
 			c:kill()
 		end,
 		{description = 'close', group = 'client'}
 	),
 	awful.key(
-		{altkey, 'Control'},
-		'd',
+		{ altkey, 'Control' }, 'd',
 		function()
 			awful.client.focus.byidx(1)
 		end,
 		{description = 'focus next by index', group = 'client'}
 	),
 	awful.key(
-		{altkey, 'Control'},
-		'a',
+		{ altkey, 'Control' }, 'a',
 		function()
 			awful.client.focus.byidx(-1)
 		end,
 		{description = 'focus previous by index', group = 'client'}
 	),
 	awful.key(
-		{ modkey, 'Shift'  },
-		'd',
+		{ modkey, 'Shift'  }, 'd',
 		function ()
 			awful.client.swap.byidx(1)
 		end,
 		{description = 'swap with next client by index', group = 'client'}
 	),
 	awful.key(
-		{ modkey, 'Shift' },
-		'a',
+		{ modkey, 'Shift' }, 'a',
 		function ()
 			awful.client.swap.byidx(-1)
 		end,
 		{description = 'swap with next client by index', group = 'client'}
 	),
 	awful.key(
-		{modkey}, 
-		'u', 
-		awful.client.urgent.jumpto, 
+		{ modkey },  'u',
+		awful.client.urgent.jumpto,
 		{description = 'jump to urgent client', group = 'client'}
 	),
 	awful.key(
-		{altkey},
-		'Tab',
+		{ altkey }, 'Tab',
 		function()
 			--awful.client.focus.history.previous()
 			awful.client.focus.byidx(1)
@@ -74,16 +66,27 @@ local client_keys = awful.util.table.join(
 		{description = 'Switch windows', group = 'client'}
 	),
     awful.key(
-        {modkey},
-        'n',
+        { modkey }, 'n',
         function(c)
             c.minimized = true
         end,
         {description = 'minimize client', group = 'client'}
     ),
 	awful.key(
-		{ modkey, 'Shift' }, 
-		'c', 
+		{ modkey, 'Control'}, 'n',
+		function()
+			local c = awful.client.restore()
+			-- Focus restored client
+			if c then
+				c:emit_signal('request::activate')
+				c:raise()
+			end
+		end,
+		{description = 'restore minimized', group = 'client'}
+	),
+
+	awful.key(
+		{ modkey, 'Shift' }, 'c',
 		function(c)
 			local focused = awful.screen.focused()
 
@@ -94,8 +97,7 @@ local client_keys = awful.util.table.join(
 		{description = 'align a client to the center of the focused screen', group = 'client'}
 	),
 	awful.key(
-		{modkey},
-		'c',
+		{ modkey }, 'c',
 		function(c)
 			c.fullscreen = false
 			c.maximized = false
@@ -105,8 +107,7 @@ local client_keys = awful.util.table.join(
 		{description = 'toggle floating', group = 'client'}
 	),
 	awful.key(
-		{altkey, 'Control'},
-		'Right',
+		{ modkey, 'Shift' }, 'l',
 		function()
 			awful.client.focus.byidx(1)
 			if client.focus then
@@ -116,8 +117,7 @@ local client_keys = awful.util.table.join(
 		{description = 'Give focus to next window', group = 'client'}
 	),
 	awful.key(
-		{altkey, 'Control'},
-		'Left',
+		{ modkey, 'Shift' }, 'h',
 		function()
 			awful.client.focus.byidx(-1)
 			if client.focus then
@@ -128,8 +128,7 @@ local client_keys = awful.util.table.join(
 	),
 	-- Move client to tag below
 	awful.key(
-		{modkey, 'Shift'},
-		'Down',
+		{ modkey, 'Shift' }, 'Down',
 		function()
 			if client.focus then
 				-- get current tag
@@ -148,8 +147,7 @@ local client_keys = awful.util.table.join(
 	),
 	-- Move client to tag above
 	awful.key(
-		{modkey, 'Shift'},
-		'Up',
+		{ modkey, 'Shift' }, 'Up',
 		function()
 			if client.focus then
 				-- get current tag
@@ -168,8 +166,7 @@ local client_keys = awful.util.table.join(
 	),
 	-- Move client tab to the right
 	awful.key(
-		{ modkey, 'Shift'  },
-		'Right',
+		{ modkey, 'Shift'  }, 'Right',
 		function ()
 			awful.client.swap.byidx(1)
 		end,
@@ -177,8 +174,7 @@ local client_keys = awful.util.table.join(
 	),
 	-- Move client tab to the left
 	awful.key(
-		{ modkey, 'Shift' },
-		'Left',
+		{ modkey, 'Shift' }, 'Left',
 		function ()
 			awful.client.swap.byidx(-1)
 		end,
@@ -186,80 +182,70 @@ local client_keys = awful.util.table.join(
 	),
 	-- Screen management
 	awful.key(
-		{modkey},
-		'o',
+		{ modkey }, 'o',
 		function()
 			client.focus:move_to_screen()
 		end,
 		{description = 'Move client to next screen', group = 'client'}
 	),
 	awful.key(
-		{modkey},
-		'Up',
+		{ modkey }, 'Up',
 		function(c)
 			c:relative_move(0, dpi(-10), 0, 0)
 		end,
 		{description = 'move floating client up by 10 px', group = 'client'}
 	),
 	awful.key(
-		{modkey},
-		'Down',
+		{ modkey }, 'Down',
 		function(c)
 			c:relative_move(0, dpi(10), 0, 0)
 		end,
 		{description = 'move floating client down by 10 px', group = 'client'}
 	),
 	awful.key(
-		{modkey},
-		'Left',
+		{ modkey }, 'Left',
 		function(c)
 			c:relative_move(dpi(-10), 0, 0, 0)
 		end,
 		{description = 'move floating client to the left by 10 px', group = 'client'}
 	),
 	awful.key(
-		{modkey},
-		'Right',
+		{ modkey }, 'Right',
 		function(c)
 			c:relative_move(dpi(10), 0, 0, 0)
 		end,
 		{description = 'move floating client to the right by 10 px', group = 'client'}
 	),
 	awful.key(
-		{modkey, 'Control', 'Shift'},
-		'Up',
+		{ modkey, 'Control', 'Shift' }, 'Up',
 		function(c)
 			c:relative_move(0, dpi(-10), 0, dpi(10))
 		end,
 		{description = 'increase floating client size vertically by 10 px up', group = 'client'}
 	),
 	awful.key(
-		{modkey, 'Control', 'Shift'},
-		'Down',
+		{ modkey, 'Control', 'Shift' }, 'Down',
 		function(c)
 			c:relative_move(0, 0, 0, dpi(10))
 		end,
 		{description = 'increase floating client size vertically by 10 px down', group = 'client'}
 	),
 	awful.key(
-		{modkey, 'Control', 'Shift'},
-		'Left',
+		{ modkey, 'Control', 'Shift' }, 'Left',
 		function(c)
 			c:relative_move(dpi(-10), 0, dpi(10), 0)
 		end,
 		{description = 'increase floating client size horizontally by 10 px left', group = 'client'}
 	),
 	awful.key(
-		{modkey, 'Control', 'Shift'},
-		'Right',
+		{ modkey, 'Control', 'Shift' }, 'Right',
 		function(c)
 			c:relative_move(0, 0, dpi(10), 0)
 		end,
 		{description = 'increase floating client size horizontally by 10 px right', group = 'client'}
 	),
 	awful.key(
-		{modkey, 'Control'},
-		'Up',
+		{ modkey, 'Control' }, 'Up',
 		function(c)
 			if c.height > 10 then
 				c:relative_move(0, 0, 0, dpi(-10))
@@ -268,8 +254,7 @@ local client_keys = awful.util.table.join(
 		{description = 'decrease floating client size vertically by 10 px up', group = 'client'}
 	),
 	awful.key(
-		{modkey, 'Control'},
-		'Down',
+		{ modkey, 'Control' }, 'Down',
 		function(c)
 			local c_height = c.height
 			c:relative_move(0, 0, 0, dpi(-10))
@@ -280,8 +265,7 @@ local client_keys = awful.util.table.join(
 		{description = 'decrease floating client size vertically by 10 px down', group = 'client'}
 	),
 	awful.key(
-		{modkey, 'Control'},
-		'Left',
+		{ modkey, 'Control' }, 'Left',
 		function(c)
 			if c.width > 10 then
 				c:relative_move(0, 0, dpi(-10), 0)
@@ -290,8 +274,7 @@ local client_keys = awful.util.table.join(
 		{description = 'decrease floating client size horizontally by 10 px left', group = 'client'}
 	),
 	awful.key(
-		{modkey, 'Control'},
-		'Right',
+		{ modkey, 'Control' }, 'Right',
 		function(c)
 			local c_width = c.width
 			c:relative_move(0, 0, dpi(-10), 0)
