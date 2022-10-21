@@ -101,7 +101,7 @@ screen.connect_signal(
 					icon = tag.icon,
 					icon_only = true,
 					layout = tag.layout or awful.layout.suit.spiral.dwindle,
-					gap_single_client = true,
+					gap_single_client = false,
 					gap = tag.gap,
 					screen = s,
 					default_app = tag.default_app,
@@ -117,7 +117,7 @@ local update_gap_and_shape = function(t)
 	local current_layout = awful.tag.getproperty(t, 'layout')
 	-- If the current layout is awful.layout.suit.max
 	if (current_layout == awful.layout.suit.max) then
-		-- Set clients gap to 0 and shape to rectangle if maximized
+		-- Set clients gap to 0 and shape to rectangle if maximized or tiled with only 1 client
 		t.gap = 0
 		for _, c in ipairs(t:clients()) do
 			if not c.floating or not c.round_corners or c.maximized or c.fullscreen then
@@ -137,6 +137,23 @@ local update_gap_and_shape = function(t)
 		end
 	end
 end
+
+-- Remove border when only one window
+local function set_border(c)
+    local s = awful.screen.focused()
+    if c.maximized
+        or (#s.tiled_clients == 1 and not c.floating)
+        or (s.selected_tag and s.selected_tag.layout.name == 'max')
+    then
+        c.border_width = 0
+    else
+        c.border_width = beautiful.border_width
+    end
+end
+
+client.connect_signal("request::border", set_border)
+client.connect_signal("property::maximized", set_border)
+
 
 -- Change tag's client's shape and gap on change
 tag.connect_signal(

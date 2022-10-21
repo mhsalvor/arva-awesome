@@ -3,9 +3,9 @@ return {
 	widget = {
 		weather = {
 			-- API Key
-			key = '',
+			key = 'bd5e378503939ddaee76f12ad7a97608',
 			-- City ID
-			city_id = '',
+			city_id = '3170647',
 			-- Units
 			units = 'metric',
 			-- Update in N seconds

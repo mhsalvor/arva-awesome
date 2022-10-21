@@ -10,6 +10,7 @@ local titlebar_theme = 'stoplight'
 local titlebar_icon_path = theme_dir .. '/icons/titlebar/' .. titlebar_theme .. '/'
 local tip = titlebar_icon_path
 
+
 -- Create theme table
 local theme = {}
 
@@ -136,7 +137,7 @@ local awesome_overrides = function(theme)
 	theme.border_radius = dpi(9)
 
 	-- Decorations
-	theme.useless_gap = dpi(4)
+	theme.useless_gap = dpi(2)
 	theme.client_shape_rectangle = gears.shape.rectangle
 	theme.client_shape_rounded = function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, dpi(6))
@@ -174,7 +175,7 @@ local awesome_overrides = function(theme)
 	theme.layout_tile = theme.icons .. 'layouts/tile.svg'
 	theme.layout_dwindle = theme.icons .. 'layouts/dwindle.svg'
 	theme.layout_floating = theme.icons .. 'layouts/floating.svg'
-	
+
 	-- Taglist
 	theme.taglist_bg_empty = theme.background .. '99'
 	theme.taglist_bg_occupied =  theme.background -- '#ffffff' .. '1A'
@@ -200,7 +201,7 @@ local awesome_overrides = function(theme)
 	theme.notification_spacing = dpi(5)
 	theme.notification_icon_resize_strategy = 'center'
 	theme.notification_icon_size = dpi(32)
-	
+
 	-- Client Snap Theme
 	theme.snap_bg = theme.background
 	theme.snap_shape = gears.shape.rectangle
