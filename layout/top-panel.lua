@@ -6,12 +6,13 @@ local icons = require('theme.icons')
 local dpi = beautiful.xresources.apply_dpi
 local clickable_container = require('widget.clickable-container')
 local task_list = require('widget.task-list')
+local tag_list = require('widget.tag-list')
 
 local top_panel = function(s, offset)
 
 	local offsetx = 0
 	if offset == true then
-		offsetx = dpi(45)
+		offsetx = dpi(0)
 	end
 
 	local panel = wibox
@@ -35,8 +36,8 @@ local top_panel = function(s, offset)
 
 	panel:connect_signal(
 		'mouse::enter',
-		function() 
-			local w = mouse.current_wibox
+		function()
+            local w = mouse.current_wibox
 			if w then
 				w.cursor = 'left_ptr'
 			end
@@ -68,10 +69,11 @@ local top_panel = function(s, offset)
 		expand = 'none',
 		{
 			layout = wibox.layout.fixed.horizontal,
+            tag_list(s),
 			task_list(s),
-			add_button
+			-- add_button
 		},
-		nil, 
+		nil,
 		{
 			layout = wibox.layout.fixed.horizontal,
 			spacing = dpi(5),
@@ -83,13 +85,13 @@ local top_panel = function(s, offset)
 				bottom = dpi(12),
 				widget = wibox.container.margin
 			},
-			s.tray_toggler,
+			-- s.tray_toggler,
 			--s.updater,
 			--s.screen_rec,
 			--s.mpd,
 			--s.network,
 			--s.bluetooth,
-			s.battery,
+			-- s.battery,
 			clock,
 			layout_box,
 			s.info_center_toggle

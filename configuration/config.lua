@@ -60,30 +60,30 @@ return {
 			debug_mode = false
 		},
 
-		dynamic_wallpaper = {
-			-- Will look for wallpapers here
-			wall_dir = 'theme/wallpapers/',
-			-- Image formats
-			valid_picture_formats = {'jpg', 'png', 'jpeg'},
-			-- Leave this table empty for full auto scheduling
-			wallpaper_schedule = {
-				['00:00:00'] = 'midnight-wallpaper.png',
-				['06:22:00'] = 'morning-wallpaper.png',
-				['12:00:00'] = 'noon-wallpaper.png',
-				['17:58:00'] = 'night-wallpaper.png'
-				-- Example of just using auto-scheduling with keywords
-				--[[
-					'midnight',
-					'morning',
-					'noon',
-					'afternoon',
-					'evening',
-					'night'
-				--]]
-			},
-			-- Stretch background image across all screens(monitor)
-			stretch = true
-		},
+		--dynamic_wallpaper = {
+		--	-- Will look for wallpapers here
+		--	wall_dir = 'theme/wallpapers/',
+		--	-- Image formats
+		--	valid_picture_formats = {'jpg', 'png', 'jpeg'},
+		--	-- Leave this table empty for full auto scheduling
+		--	wallpaper_schedule = {
+		--		['00:00:00'] = 'midnight-wallpaper.png',
+		--		['06:22:00'] = 'morning-wallpaper.png',
+		--		['12:00:00'] = 'noon-wallpaper.png',
+		--		['17:58:00'] = 'night-wallpaper.png'
+		--		-- Example of just using auto-scheduling with keywords
+		--		--[[
+		--			'midnight',
+		--			'morning',
+		--			'noon',
+		--			'afternoon',
+		--			'evening',
+		--			'night'
+		--		--]]
+		--	},
+		--	-- Stretch background image across all screens(monitor)
+		--	stretch = true
+		--},
 
 		-- This module is not in use, configuration is left here for potential future use!
 		-- because this idea is actually really cool!

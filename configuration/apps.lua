@@ -77,8 +77,8 @@ return {
         -- volume
         'pa-applet',
         -- power manager
-        'xfce-power-manager',
-        -- syncthing
+        'xfce4-power-manager',
+        -- syncthiwng
         'syncthing-gtk -m',
         -- redshif
         'redshift-gtk',
@@ -102,7 +102,7 @@ return {
 		"i3lock-fancy" ""
 		]],
 		-- Set brightness to 50% on LVDS output because my laptop battery is bad
-		utils_dir .. 'laptop-brightness set 50',
+		-- utils_dir .. 'laptop-brightness set 50',
 		-- Load users custom xmodmap if they have one
 		'xmodmap $HOME/.Xmodmap',
 

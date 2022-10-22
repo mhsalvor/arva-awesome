@@ -1,3 +1,6 @@
+-- Mouse Buttons
+
+
 local awful = require('awful')
 local modkey = require('configuration.keys.mod').mod_key
 
